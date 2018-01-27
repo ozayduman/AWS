@@ -1,15 +1,14 @@
-package com.ozayduman.socialapp.firends;
+package com.ozayduman.socialapp.firends.user.authentication;
 
 import java.util.UUID;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.ozayduman.socialapp.firends.authentication.AuthenticateUserRequest;
-import com.ozayduman.socialapp.firends.authentication.AuthenticateUserResponse;
 import com.ozayduman.socialapp.firends.dao.DynamoDBManager;
+import com.ozayduman.socialapp.firends.user.User;
 
-public class LambdaFunctionHandler implements RequestHandler<AuthenticateUserRequest, AuthenticateUserResponse> {
+public class AuthenticateFunctionHandler implements RequestHandler<AuthenticateUserRequest, AuthenticateUserResponse> {
 	
 	private static DynamoDBMapper mapper;
 

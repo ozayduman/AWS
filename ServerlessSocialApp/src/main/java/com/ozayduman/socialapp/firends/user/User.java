@@ -1,4 +1,6 @@
-package com.ozayduman.socialapp.firends;
+package com.ozayduman.socialapp.firends.user;
+
+import java.util.Date;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
@@ -11,6 +13,7 @@ public class User {
 	private Integer userId;
 	private String passwordHash;
 	private String openIdToken;
+	private Date birthDate;
 	private String mail;
 	private String city;
 	private String district;
@@ -80,6 +83,14 @@ public class User {
 	public void setDistrict(String district) {
 		this.district = district;
 	}
+	@DynamoDBAttribute(attributeName = "birthdate")
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 
 	public User withUserName(String username) {
 		setUserName(username);
@@ -106,4 +117,8 @@ public class User {
 		return this;
 	}
 
+	public User withBirthDate(Date birthDate) {
+		setBirthDate(birthDate);
+		return this;
+	}
 }

@@ -1,4 +1,4 @@
-package com.ozayduman.socialapp.firends.authentication;
+package com.ozayduman.socialapp.firends.user.authentication;
 
 public class AuthenticateUserRequest {
 	private String username;

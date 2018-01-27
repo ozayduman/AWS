@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +15,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
 import com.amazonaws.services.dynamodbv2.model.DeleteTableRequest;
 import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
@@ -25,21 +24,22 @@ import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import com.amazonaws.services.lambda.runtime.Context;
-import com.ozayduman.socialapp.firends.authentication.AuthenticateUserRequest;
-import com.ozayduman.socialapp.firends.authentication.AuthenticateUserResponse;
 import com.ozayduman.socialapp.firends.dao.DynamoDBManager;
-import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.ozayduman.socialapp.firends.user.User;
+import com.ozayduman.socialapp.firends.user.authentication.AuthenticateFunctionHandler;
+import com.ozayduman.socialapp.firends.user.authentication.AuthenticateUserRequest;
+import com.ozayduman.socialapp.firends.user.authentication.AuthenticateUserResponse;
 
-public class LambdaFunctionHandlerTest {
+public class AuthenticateFunctionHandlerTest {
 
-	private LambdaFunctionHandler handler;
+	private AuthenticateFunctionHandler handler;
 	private Context context;
 
 	@Before
 	public void init() {
 		createUserTable();
 		insertDataToUserTable();
-		handler = new LambdaFunctionHandler();
+		handler = new AuthenticateFunctionHandler();
 		TestContext context = new TestContext();
 		context.setFunctionName("UserAuthenticationFunctionHandler");
 	}
