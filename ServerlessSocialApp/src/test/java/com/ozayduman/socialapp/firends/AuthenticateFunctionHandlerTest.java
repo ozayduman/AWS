@@ -24,11 +24,11 @@ import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import com.amazonaws.services.lambda.runtime.Context;
-import com.ozayduman.socialapp.firends.dao.DynamoDBManager;
 import com.ozayduman.socialapp.firends.user.User;
 import com.ozayduman.socialapp.firends.user.authentication.AuthenticateFunctionHandler;
 import com.ozayduman.socialapp.firends.user.authentication.AuthenticateUserRequest;
 import com.ozayduman.socialapp.firends.user.authentication.AuthenticateUserResponse;
+import com.ozayduman.socialapp.firends.user.dao.DynamoDBManager;
 
 public class AuthenticateFunctionHandlerTest {
 

@@ -1,4 +1,4 @@
-package com.ozayduman.socialapp.firends.dao;
+package com.ozayduman.socialapp.firends.user.dao;
 
 import java.util.HashMap;
 import java.util.List;

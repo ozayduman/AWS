@@ -3,8 +3,8 @@ package com.ozayduman.socialapp.firends.user.pagination;
 import com.amazonaws.services.dynamodbv2.datamodeling.ScanResultPage;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.ozayduman.socialapp.firends.dao.DynamoDBUserDao;
 import com.ozayduman.socialapp.firends.user.User;
+import com.ozayduman.socialapp.firends.user.dao.DynamoDBUserDao;
 
 public class UserPaginationFunctionHandler implements RequestHandler<PageUserRequest, PageUserResponse> {
 

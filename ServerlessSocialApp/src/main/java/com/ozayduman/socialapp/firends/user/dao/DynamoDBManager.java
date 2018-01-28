@@ -1,4 +1,4 @@
-package com.ozayduman.socialapp.firends.dao;
+package com.ozayduman.socialapp.firends.user.dao;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
