@@ -37,8 +37,8 @@ public class AuthenticateFunctionHandlerTest {
 
 	@Before
 	public void init() {
-		createUserTable();
-		insertDataToUserTable();
+		TestUtils.createUserTable();
+        TestUtils.insertDataToUserTable();
 		handler = new AuthenticateFunctionHandler();
 		TestContext context = new TestContext();
 		context.setFunctionName("UserAuthenticationFunctionHandler");
@@ -46,35 +46,8 @@ public class AuthenticateFunctionHandlerTest {
 
 	@After
 	public void clean() {
-		TableUtils.deleteTableIfExists(createDynamoDBClient(), new DeleteTableRequest("User"));
+		TableUtils.deleteTableIfExists(TestUtils.createDynamoDBClient(), new DeleteTableRequest("User"));
 	}
-
-	private AmazonDynamoDB createDynamoDBClient() {
-		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000/", "us-west-2")).build();
-		return client;
-	}
-
-	private void createUserTable() {
-		AmazonDynamoDB client = createDynamoDBClient();
-		CreateTableRequest createTableRequest = new CreateTableRequest().withTableName("User");
-		createTableRequest
-				.withKeySchema(new KeySchemaElement().withAttributeName("username").withKeyType(KeyType.HASH))
-				.withAttributeDefinitions(Arrays.asList(new AttributeDefinition("username",ScalarAttributeType.S)));
-		
-		createTableRequest.setProvisionedThroughput(
-				new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(2L));
-		TableUtils.createTableIfNotExists(client, createTableRequest);
-	
-	}
-
-	private void insertDataToUserTable() {
-		DynamoDBMapper mapper = DynamoDBManager.mapper();
-		User user = new User().withUserName("ozay").withPasswordHash("123").withUserId(1).withCity("Ankara")
-				.withDistrict("Çankaya");
-		mapper.save(user);
-	}
-
 
 	@Test
 	public void WhenTrueCredentialsGivenAuthenticatesSuccesfully() {

@@ -40,8 +40,8 @@ public class UserPaginationFunctionHandlerTest {
 
 	@Before
 	public void init() {
-		createUserTable();
-		insertDataToUserTable();
+		TestUtils.createUserTable();
+        TestUtils.insert100UserDataToUserTable();
 		handler = new UserPaginationFunctionHandler();
 		TestContext context = new TestContext();
 		context.setFunctionName("UserPaginationFunctionHandlerTest");
@@ -49,35 +49,9 @@ public class UserPaginationFunctionHandlerTest {
 
 	@After
 	public void clean() {
-		TableUtils.deleteTableIfExists(createDynamoDBClient(), new DeleteTableRequest("User"));
+		TableUtils.deleteTableIfExists(TestUtils.createDynamoDBClient(), new DeleteTableRequest("User"));
 	}
 
-	private AmazonDynamoDB createDynamoDBClient() {
-		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000/", "us-west-2")).build();
-		return client;
-	}
-
-	private void createUserTable() {
-		AmazonDynamoDB client = createDynamoDBClient();
-		CreateTableRequest createTableRequest = new CreateTableRequest().withTableName("User");
-		createTableRequest.withKeySchema(new KeySchemaElement().withAttributeName("username").withKeyType(KeyType.HASH))
-				.withAttributeDefinitions(Arrays.asList(new AttributeDefinition("username", ScalarAttributeType.S)));
-
-		createTableRequest.setProvisionedThroughput(
-				new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(2L));
-		TableUtils.createTableIfNotExists(client, createTableRequest);
-	}
-
-	private void insertDataToUserTable() {
-		DynamoDBMapper mapper = DynamoDBManager.mapper();
-		IntStream.range(0, 100).forEach(i -> {
-			System.out.println(i);
-			User user = new User().withUserName("ozay" + "-" + i).withPasswordHash("123" + "-" + i).withUserId(i)
-					.withCity("Ankara").withDistrict("Çankaya");
-			mapper.save(user);
-		});
-	}
 	
 	@Test
 	public void WhenInitialUserPageRequestThenReturnLastEvaluatedKey() {

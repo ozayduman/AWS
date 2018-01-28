@@ -3,18 +3,31 @@ package com.ozayduman.socialapp.firends;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.tz.FixedDateTimeZone;
 
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
+import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
+import com.amazonaws.services.dynamodbv2.model.KeyType;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
 import com.amazonaws.services.dynamodbv2.model.Record;
+import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import com.amazonaws.services.dynamodbv2.model.StreamRecord;
+import com.amazonaws.services.dynamodbv2.util.TableUtils;
 import com.amazonaws.services.lambda.runtime.events.DynamodbEvent;
 import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.amazonaws.services.lambda.runtime.events.SNSEvent;
@@ -30,6 +43,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.ozayduman.socialapp.firends.user.User;
+import com.ozayduman.socialapp.firends.user.dao.DynamoDBManager;
 
 /**
  * Helper utilities for testing Lambda functions.
@@ -39,6 +54,43 @@ public class TestUtils {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final ObjectMapper snsEventMapper = new ObjectMapper();
     private static final ObjectMapper dynamodbEventMapper = new ObjectMapper();
+    
+    
+    public static AmazonDynamoDB createDynamoDBClient() {
+		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
+				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000/", "us-west-2")).build();
+		return client;
+	}
+
+    public static void createUserTable() {
+		AmazonDynamoDB client = createDynamoDBClient();
+		CreateTableRequest createTableRequest = new CreateTableRequest().withTableName("User");
+		createTableRequest
+				.withKeySchema(new KeySchemaElement().withAttributeName("username").withKeyType(KeyType.HASH))
+				.withAttributeDefinitions(Arrays.asList(new AttributeDefinition("username",ScalarAttributeType.S)));
+		
+		createTableRequest.setProvisionedThroughput(
+				new ProvisionedThroughput().withReadCapacityUnits(5L).withWriteCapacityUnits(2L));
+		TableUtils.createTableIfNotExists(client, createTableRequest);
+	
+	}
+
+    public static void insertDataToUserTable() {
+		DynamoDBMapper mapper = DynamoDBManager.mapper();
+		User user = new User().withUserName("ozay").withPasswordHash("123").withUserId("1").withCity("Ankara")
+				.withDistrict("Çankaya");
+		mapper.save(user);
+	}
+    
+    public static void insert100UserDataToUserTable() {
+		DynamoDBMapper mapper = DynamoDBManager.mapper();
+		IntStream.range(0, 100).forEach(i -> {
+			System.out.println(i);
+			User user = new User().withUserName("ozay" + "-" + i).withPasswordHash("123" + "-" + i).withUserId(String.valueOf(i))
+					.withCity("Ankara").withDistrict("Çankaya");
+			mapper.save(user);
+		});
+	}
 
     static {
         mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
@@ -230,4 +282,7 @@ public class TestUtils {
             @JsonProperty(L) public void setL(List<Object> val);
         }
     }
+    
+    
+    
 }

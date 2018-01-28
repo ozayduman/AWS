@@ -6,7 +6,7 @@ import com.ozayduman.socialapp.firends.user.User;
 
 public class UserDTO {
 	private String userName;
-	private Integer userId;
+	private String userId;
 	private Date birthDate;
 	private String city;
 	private String district;
@@ -29,10 +29,10 @@ public class UserDTO {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public Date getBirthDate() {

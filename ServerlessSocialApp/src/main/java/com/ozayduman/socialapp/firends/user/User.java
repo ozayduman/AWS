@@ -10,7 +10,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 public class User {
 
 	private String userName;
-	private Integer userId;
+	private String userId;
 	private String passwordHash;
 	private String openIdToken;
 	private Date birthDate;
@@ -31,11 +31,11 @@ public class User {
 	}
 
 	@DynamoDBAttribute(attributeName = "userid")
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -102,7 +102,7 @@ public class User {
 		return this;
 	}
 
-	public User withUserId(Integer userId) {
+	public User withUserId(String userId) {
 		setUserId(userId);
 		return this;
 	}

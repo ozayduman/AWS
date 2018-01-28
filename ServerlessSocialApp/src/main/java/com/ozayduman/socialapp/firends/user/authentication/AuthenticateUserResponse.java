@@ -2,15 +2,15 @@ package com.ozayduman.socialapp.firends.user.authentication;
 
 public class AuthenticateUserResponse {
 
-	protected Integer userId;
+	protected String userId;
 	protected String openIdToken;
 	protected String status;
 
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
