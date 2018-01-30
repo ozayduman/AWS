@@ -47,6 +47,12 @@ public class DynamoDBUserDao implements UserDao {
 
 	@Override
 	public void saveOrUpdateUser(User user) {
+		if (user.getAvatarInByteArray() != null) {
+			String myS3Bucket = "myS3bucket";
+			String myS3Key = "userImages/" + user.getUserName() + "avatar.jpg";
+			user.setAvatar(mapper.createS3Link(myS3Bucket, myS3Key));
+			user.getAvatar().uploadFrom(user.getAvatarInByteArray());
+		}
 		mapper.save(user);
 	}
 

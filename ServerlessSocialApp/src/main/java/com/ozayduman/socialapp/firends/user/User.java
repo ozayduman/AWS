@@ -1,10 +1,12 @@
 package com.ozayduman.socialapp.firends.user;
 
+import java.io.File;
 import java.util.Date;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.S3Link;
 
 @DynamoDBTable(tableName = "User")
 public class User {
@@ -17,8 +19,9 @@ public class User {
 	private String mail;
 	private String city;
 	private String district;
+	private S3Link avatar;
 
-	public User() {
+	public User() { 
 	}
 
 	@DynamoDBHashKey(attributeName = "username")
@@ -88,6 +91,15 @@ public class User {
 		return birthDate;
 	}
 
+	public S3Link getAvatar() {
+		return avatar;
+	}
+	
+	@DynamoDBAttribute(attributeName = "avatar")
+	public void setAvatar(S3Link avatar) {
+		this.avatar = avatar;
+	}
+
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
@@ -121,4 +133,15 @@ public class User {
 		setBirthDate(birthDate);
 		return this;
 	}
+	
+	public User withAvatar(S3Link avatar) {
+		setAvatar(avatar);
+		return this;
+	}
+
+	public byte[] getAvatarInByteArray() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
