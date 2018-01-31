@@ -1,5 +1,6 @@
 package com.ozayduman.socialapp.firends.user.create;
 
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class CreateUserRequest {
 	private Date birthDate;
 	private String city;
 	private String district;
+	private String avatarEncodedString;
 
 	public User convertToUser() {
 		return new User()
@@ -19,7 +21,8 @@ public class CreateUserRequest {
 		.withBirthDate(birthDate)
 		.withUserId(UUID.randomUUID().toString())
 		.withCity(city)
-		.withDistrict(district);
+		.withDistrict(district)
+		.withAvatarInByteArray(Base64.getDecoder().decode(avatarEncodedString));
 	}
 
 	public String getUsername() {
@@ -60,6 +63,14 @@ public class CreateUserRequest {
 
 	public void setDistrict(String district) {
 		this.district = district;
+	}
+
+	public String getAvatarEncodedString() {
+		return avatarEncodedString;
+	}
+
+	public void setAvatarEncodedString(String avatarEncodedString) {
+		this.avatarEncodedString = avatarEncodedString;
 	}
 
 }
