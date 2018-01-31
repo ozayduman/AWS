@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
+import com.amazonaws.util.StringUtils;
 import com.ozayduman.socialapp.firends.user.User;
 
 public class CreateUserRequest {
@@ -22,7 +23,14 @@ public class CreateUserRequest {
 		.withUserId(UUID.randomUUID().toString())
 		.withCity(city)
 		.withDistrict(district)
-		.withAvatarInByteArray(Base64.getDecoder().decode(avatarEncodedString));
+		.withAvatarInByteArray(decodeImagefrom(avatarEncodedString));
+	}
+
+	private byte[] decodeImagefrom(String avatarEncodedString) {
+		if(StringUtils.isNullOrEmpty(avatarEncodedString)) {			
+			return null;
+		}
+		return Base64.getDecoder().decode(avatarEncodedString);
 	}
 
 	public String getUsername() {
