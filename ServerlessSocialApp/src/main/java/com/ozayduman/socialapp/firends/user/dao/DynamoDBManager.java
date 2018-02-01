@@ -1,6 +1,5 @@
 package com.ozayduman.socialapp.firends.user.dao;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -13,8 +12,9 @@ public class DynamoDBManager {
     private static DynamoDBMapper mapper;
 
     private DynamoDBManager() {
-    	AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
-				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000/", "us-west-2")).build();
+    	/*AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
+				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000/", "us-west-2")).build();*/
+    	AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
     	mapper = new DynamoDBMapper(client);
     }
 
