@@ -1,5 +1,7 @@
 package com.ozayduman.socialapp.firends.user.dao;
 
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -14,8 +16,11 @@ public class DynamoDBManager {
     private DynamoDBManager() {
     	/*AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().withEndpointConfiguration(
 				new AwsClientBuilder.EndpointConfiguration("http://localhost:8000/", "us-west-2")).build();*/
-    	AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
-    	mapper = new DynamoDBMapper(client);
+    	AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
+    			.build();
+    	
+    	AWSCredentialsProvider awsCredentialsProvider = new DefaultAWSCredentialsProviderChain(); 
+		mapper = new DynamoDBMapper(client,awsCredentialsProvider);
     }
 
     public static DynamoDBManager instance() {
