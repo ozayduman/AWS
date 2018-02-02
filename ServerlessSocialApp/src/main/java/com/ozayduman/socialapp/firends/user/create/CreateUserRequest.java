@@ -23,14 +23,7 @@ public class CreateUserRequest {
 		.withUserId(UUID.randomUUID().toString())
 		.withCity(city)
 		.withDistrict(district)
-		.withAvatarInByteArray(decodeImagefrom(avatarEncodedString));
-	}
-
-	private byte[] decodeImagefrom(String avatarEncodedString) {
-		if(StringUtils.isNullOrEmpty(avatarEncodedString)) {			
-			return null;
-		}
-		return Base64.getDecoder().decode(avatarEncodedString);
+		.withAvatarInByteArray(avatarEncodedString);
 	}
 
 	public String getUsername() {

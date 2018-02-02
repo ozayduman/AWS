@@ -3,7 +3,9 @@ package com.ozayduman.socialapp.firends.user.pagination;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageUserResponse {
+import com.ozayduman.socialapp.firends.user.AbstractResponseDTO;
+
+public class PageUserResponse extends AbstractResponseDTO{
 	private String lastEvaluatedKey;
 	private List<UserDTO> userDTOs;
 	

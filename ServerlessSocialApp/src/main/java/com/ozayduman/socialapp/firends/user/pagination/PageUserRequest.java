@@ -1,6 +1,8 @@
 package com.ozayduman.socialapp.firends.user.pagination;
 
-public class PageUserRequest {
+import com.ozayduman.socialapp.firends.user.AbstractAuthorizedRequestDTO;
+
+public class PageUserRequest extends AbstractAuthorizedRequestDTO{
 	private String lastEvaluatedKey;
 
 	public PageUserRequest() {

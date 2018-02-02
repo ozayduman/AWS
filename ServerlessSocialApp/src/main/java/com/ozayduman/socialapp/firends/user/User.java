@@ -1,5 +1,6 @@
 package com.ozayduman.socialapp.firends.user;
 
+import java.util.Base64;
 import java.util.Date;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
@@ -7,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.S3Link;
+import com.amazonaws.util.StringUtils;
 
 @DynamoDBTable(tableName = "User")
 public class User {
@@ -145,6 +147,18 @@ public class User {
 		setAvatarInByteArray(avatarInByteArray);
 		return this;
 	}
+	
+	public User withAvatarInByteArray(String avatarEncodedString) {
+		return withAvatarInByteArray(decodeImagefrom(avatarEncodedString));
+	}
+	
+	private byte[] decodeImagefrom(String avatarEncodedString) {
+		if(StringUtils.isNullOrEmpty(avatarEncodedString)) {			
+			return null;
+		}
+		return Base64.getDecoder().decode(avatarEncodedString);
+	}
+
 
 	public byte[] getAvatarInByteArray() {
 		return avatarInByteArray;
