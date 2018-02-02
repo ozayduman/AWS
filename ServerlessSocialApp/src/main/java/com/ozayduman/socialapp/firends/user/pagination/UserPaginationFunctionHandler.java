@@ -9,10 +9,10 @@ import com.ozayduman.socialapp.firends.user.dao.DynamoDBUserDao;
 
 public class UserPaginationFunctionHandler implements RequestHandler<PageUserRequest, PageUserResponse> {
 
+	private static final AuthTokenChecker tokenChecker = new AuthTokenChecker(DynamoDBUserDao.instance());
 	@Override
 	public PageUserResponse handleRequest(PageUserRequest request, Context context) {
 		PageUserResponse response = new PageUserResponse();
-		AuthTokenChecker tokenChecker = new AuthTokenChecker(DynamoDBUserDao.instance());
 		if(tokenChecker.check(request))
 		{
 			response.setAsUnauthorized();

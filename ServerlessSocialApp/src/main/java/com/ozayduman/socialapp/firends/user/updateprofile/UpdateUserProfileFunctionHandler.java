@@ -9,6 +9,8 @@ import com.ozayduman.socialapp.firends.user.dao.DynamoDBUserDao;
 
 public class UpdateUserProfileFunctionHandler implements RequestHandler<UpdateProfileRequestDTO, UpdateProfileResponseDTO> {
 
+	private static final AuthTokenChecker tokenChecker = new AuthTokenChecker(DynamoDBUserDao.instance());
+	
     @Override
     public UpdateProfileResponseDTO handleRequest(UpdateProfileRequestDTO request, Context context) {
     	UpdateProfileResponseDTO response = new UpdateProfileResponseDTO();
@@ -17,7 +19,6 @@ public class UpdateUserProfileFunctionHandler implements RequestHandler<UpdatePr
     		return response;
     	}
     	
-    	AuthTokenChecker tokenChecker = new AuthTokenChecker(DynamoDBUserDao.instance());
 		if(tokenChecker.check(request))
 		{
 			response.setAsUnauthorized();
