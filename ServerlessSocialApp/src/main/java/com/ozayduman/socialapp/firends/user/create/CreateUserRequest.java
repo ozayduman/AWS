@@ -1,10 +1,8 @@
 package com.ozayduman.socialapp.firends.user.create;
 
-import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
-import com.amazonaws.util.StringUtils;
 import com.ozayduman.socialapp.firends.user.User;
 
 public class CreateUserRequest {
